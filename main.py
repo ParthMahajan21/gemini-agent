@@ -1,10 +1,9 @@
-notepad main.py
 import google.generativeai as genai
 from fastapi import FastAPI
 from pydantic import BaseModel
+import os
 
-# Put your Gemini API key here
-genai.configure(api_key="AIzaSyA-EiyUI2mGveZj5EbPFBUpJvJHkPk3Ibc")
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 model = genai.GenerativeModel("gemini-1.5-flash")
 
@@ -20,9 +19,6 @@ def home():
 @app.post("/agent")
 def summarize(request: Request):
     prompt = f"Summarize this text: {request.text}"
-    
     response = model.generate_content(prompt)
 
-    return {
-        "summary": response.text
-    }
+    return {"summary": response.text}
