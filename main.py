@@ -20,5 +20,4 @@ def home():
 def summarize(request: Request):
     prompt = f"Summarize this text: {request.text}"
     response = model.generate_content(prompt)
-
     return {"summary": response.text}
